@@ -1,0 +1,55 @@
+services:
+  mysqldb:
+     image: mysql:latest
+     container_name: event-booking_mysqldb
+     restart: unless-stopped
+     env_file:
+       - .env
+     environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USERNAME= ${MYSQL_USER}
+      - MYSQL_PASSWORD= ${MYSQL_PASSWORD}
+
+     ports:
+        - "${MYSQL_PORT}:3306"
+     networks:
+       - event-network
+     volumes:
+       - events-data-db:/var/lib/mysql
+
+  app:
+    build: .
+    image: events-booking-app
+    depends_on:
+      - mysqldb
+    restart: on-failure
+    container_name: event-booking-app
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    networks:
+      - event-network
+
+  mail:
+    image: maildev/maildev
+    container_name: event-booking_maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+
+networks:
+  event-network:
+    driver: bridge
+
+volumes:
+  events-data-db:
+
+
+

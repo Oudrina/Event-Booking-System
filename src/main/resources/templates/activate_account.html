@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Your Verification Code</title>
+    <style>
+        body {
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            color: #ffffff;
+            text-align: center;
+            padding: 25px 10px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 30px;
+            text-align: center;
+            color: #1f2937;
+        }
+
+        .content p {
+            font-size: 15px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .code-box {
+            display: inline-block;
+            margin: 20px 0;
+            background-color: #f1f5f9;
+            border: 2px dashed #3b82f6;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #1e3a8a;
+        }
+
+        .footer {
+            background-color: #f9fafb;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        .box{
+            width: 300px;
+            margin:  0 auto;
+            background-color: blue;
+            padding: .6em 2em;
+            border-radius: 6px;
+            color: white;
+            text-align: center;
+        }
+        .box a{
+            color: white;
+            text-align: center;
+            font-weight: 600;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header" >
+        <h1 th:text="${companyName}">Event Booking System </h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <p>Hello <strong th:text="${username}">User</strong>,</p>
+        <p>
+            Thank you for signing up for
+            <strong th:text="${companyName}">Event Booking System</strong>!
+            Please use the code below to verify your email address:
+        </p>
+
+        <!-- Verification Code -->
+        <div class="code-box" th:text="${activation_code}"></div>
+
+        <p>This code will expire in <strong th:text="${expiryMinutes}">15</strong> minutes.</p>
+
+        <p>
+            If you didn’t request this, you can safely ignore this email.
+        </p>
+    </div>
+    <div class="box">
+        <a th:href="${confirmationUrl}" th:target="blank">Activate your account</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>
+            © <span th:text="${year}">2025</span>
+            <span th:text="${companyName}">Event Booking System</span>.
+            All rights reserved.
+        </p>
+        <p>
+            Need help? Contact
+            <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@eventbooking.com</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
