@@ -89,4 +89,5 @@ Docker & Docker Compose
 
 The system follows a clean, entity-centric structure, where each entity has its own feature module.
 Each entity folder typically contains:
+<img width="1281" height="636" alt="image" src="https://github.com/user-attachments/assets/4b47fae0-d1b7-4fe2-b7a6-177cfe7d4c74" />
 
