@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 public interface EventMapper {
 
     @Mapping(target = "category" ,source = "category.name")
+    @Mapping(target = "user", source = "user.username")
     EventDto toDto(Event event);
         CreateEventServiceRequest toEntity(CreateEventRequestDto request);
 }

@@ -27,7 +27,6 @@ public class User implements UserDetails,Principal {
     @Column(unique = true)
     private String email;
     private String password;
-
     private  boolean enabled;
     private boolean accountLocked;
 

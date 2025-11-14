@@ -1,13 +1,14 @@
-package com.events.eventsbooking.service.ServiceImpl;
+package com.events.eventsbooking.booking;
 
-import com.events.eventsbooking.booking.CreateBookingServiceRequest;
-import com.events.eventsbooking.booking.Booking;
+import com.events.eventsbooking.auth.AuthenticationService;
 
 import com.events.eventsbooking.event.Event;
-import com.events.eventsbooking.booking.BookingRepo;
-import com.events.eventsbooking.service.BookingService;
+import com.events.eventsbooking.event.EventServiceImpl;
+import com.events.eventsbooking.user.User;
+import com.events.eventsbooking.user.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
     private final BookingRepo bookingRepo;
     private final EventServiceImpl eventService;
+    private final AuthenticationService authenticationService;
+    private final UserRepo userRepo;
 
     @Override
     public List<Booking> getBookings() {
@@ -29,7 +32,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking createBooking(CreateBookingServiceRequest booking) {
+    public Booking createBooking(CreateBookingServiceRequest booking , Authentication principal) {
+    User user = (User) principal.getPrincipal();
+
+
      Booking creatBooking = new Booking();
 
         Event event = eventService.findById(booking.getEventId());
@@ -52,6 +58,7 @@ public class BookingServiceImpl implements BookingService {
         creatBooking.setTotalPrice(totalPrice);
 
         creatBooking.setTickets(booking.getTickets());
+        creatBooking.setUser(user);
         return bookingRepo.save(creatBooking);
 
     }

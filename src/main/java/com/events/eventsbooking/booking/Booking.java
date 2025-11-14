@@ -1,6 +1,7 @@
 package com.events.eventsbooking.booking;
 
 import com.events.eventsbooking.event.Event;
+import com.events.eventsbooking.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,10 @@ public class Booking {
      @ManyToOne
      @JoinColumn(name = "event_id")
      private Event event;
+
+     @ManyToOne
+     @JoinColumn( name = "loggedInUser_id")
+     private User user;
 
      @PrePersist
      protected  void createdBookingDate(){

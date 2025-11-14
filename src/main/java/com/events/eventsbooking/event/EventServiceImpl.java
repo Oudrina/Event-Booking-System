@@ -1,12 +1,13 @@
-package com.events.eventsbooking.service.ServiceImpl;
+package com.events.eventsbooking.event;
 
-import com.events.eventsbooking.event.CreateEventServiceRequest;
+import com.events.eventsbooking.auth.AuthenticationService;
+import com.events.eventsbooking.cloudinary.CloudinaryServiceImpl;
 import com.events.eventsbooking.category.Category;
-import com.events.eventsbooking.event.Event;
-import com.events.eventsbooking.event.EventRepo;
-import com.events.eventsbooking.service.CategoryService;
-import com.events.eventsbooking.service.EventService;
+import com.events.eventsbooking.category.CategoryService;
+import com.events.eventsbooking.user.User;
+import com.events.eventsbooking.user.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,8 @@ public class EventServiceImpl implements EventService {
     private final EventRepo eventRepo;
     private final CategoryService categoryService;
     private final CloudinaryServiceImpl cloudinaryService;
+    private final UserRepo userRepo;
+    private final AuthenticationService authenticationService;
 
     @Override
     public Event findById(Long id) {
@@ -37,19 +40,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public Event save(CreateEventServiceRequest event, MultipartFile imageFile) throws IOException {
+    public Event save(CreateEventServiceRequest event, MultipartFile imageFile , Authentication loggedInUser) throws IOException {
+       User user = (User) loggedInUser.getPrincipal();
 
         Category category = categoryService.getCategoryById(event.getCategoryId());
-//        if (category != null) {
-//            createdEvent.setCategory(category);
-//        } else throw new RuntimeException("Category not found or invalid");
+//
         Map<String, String> imageUrl = cloudinaryService.uploadImage(imageFile);
-
-//        if (!imageFile.isEmpty()) {
-//            createdEvent.setImagePublicId(imageUrl.get("publicId"));
-//            createdEvent.setImageUrl(imageUrl.get("url"));
-//        } else throw new RuntimeException("Image not found");
-
 
 
         Event createdEvent = Event
@@ -66,6 +62,7 @@ public class EventServiceImpl implements EventService {
                 .category(category)
                 .imagePublicId(imageUrl.get("publicId"))
                 .imageUrl(imageUrl.get("url"))
+                .user(user)
                 .build();
 
 

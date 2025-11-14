@@ -1,8 +1,5 @@
-package com.events.eventsbooking.service.ServiceImpl;
+package com.events.eventsbooking.category;
 
-import com.events.eventsbooking.category.Category;
-import com.events.eventsbooking.category.CategoryRepo;
-import com.events.eventsbooking.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

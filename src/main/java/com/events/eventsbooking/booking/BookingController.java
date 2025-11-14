@@ -1,10 +1,11 @@
 package com.events.eventsbooking.booking;
 
 import com.events.eventsbooking.mappers.BookingMapper;
-import com.events.eventsbooking.service.BookingService;
+import com.events.eventsbooking.user.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 public class BookingController {
     private final BookingService bookingService;
     private  final BookingMapper bookingMapper;
+    private final UserRepo userRepo;
+
     @GetMapping
     public  ResponseEntity<List<BookingDto>> getBookings(){
         List<BookingDto> bookings = bookingService.getBookings()
@@ -33,9 +36,12 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingDto> createBooking(@RequestBody CreateBookingRequestDto request){
+    public ResponseEntity<BookingDto> createBooking(@RequestBody CreateBookingRequestDto request ,
+                                                    Authentication principal){
+
+
         CreateBookingServiceRequest booking = bookingMapper.toEntity(request);
-        Booking createdBooking = bookingService.createBooking(booking);
+        Booking createdBooking = bookingService.createBooking(booking ,principal);
         BookingDto bookingDto = bookingMapper.toBookingDto(createdBooking);
 
         return new ResponseEntity<>(bookingDto,HttpStatus.CREATED);

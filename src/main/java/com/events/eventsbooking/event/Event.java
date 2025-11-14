@@ -2,6 +2,7 @@ package com.events.eventsbooking.event;
 
 import com.events.eventsbooking.booking.Booking;
 import com.events.eventsbooking.category.Category;
+import com.events.eventsbooking.user.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -62,6 +63,10 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy ="event" ,
             cascade = CascadeType.ALL,

@@ -15,6 +15,7 @@ public class BookingDto {
     private Long id;
     private  int tickets;
     private String eventTitle;
+    private  String user;
     private double totalPrice;
     private LocalDateTime bookingDate;
 }

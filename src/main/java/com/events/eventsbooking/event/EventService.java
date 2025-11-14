@@ -1,7 +1,6 @@
-package com.events.eventsbooking.service;
+package com.events.eventsbooking.event;
 
-import com.events.eventsbooking.event.CreateEventServiceRequest;
-import com.events.eventsbooking.event.Event;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,9 +11,10 @@ public interface EventService {
 
     public List<Event> findAll();
 
-    public Event save(CreateEventServiceRequest event, MultipartFile imageFile) throws IOException;
+//    public Event save(CreateEventServiceRequest event, MultipartFile imageFile) throws IOException;
 
     public void deleteEvent(Long id);
     public Event updateEvent( Long id , CreateEventServiceRequest event, MultipartFile imageFile) throws IOException;
 
+    Event save(CreateEventServiceRequest event, MultipartFile imageFile, Authentication loggedInUser) throws IOException;
 }

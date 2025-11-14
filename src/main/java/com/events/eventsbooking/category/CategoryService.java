@@ -1,6 +1,4 @@
-package com.events.eventsbooking.service;
-
-import com.events.eventsbooking.category.Category;
+package com.events.eventsbooking.category;
 
 import java.util.List;
 

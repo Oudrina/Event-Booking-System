@@ -20,6 +20,7 @@ public class EventDto {
     private double price;
     private String location;
     private int capacity;
+    private String user;
     private int availabileCapacity;
     private LocalTime startTime;
     private LocalTime endTime;

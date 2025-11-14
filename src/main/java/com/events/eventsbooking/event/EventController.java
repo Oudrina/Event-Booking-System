@@ -1,10 +1,10 @@
 package com.events.eventsbooking.event;
 
 import com.events.eventsbooking.mappers.EventMapper;
-import com.events.eventsbooking.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,14 +32,15 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<EventDto> save(@RequestPart("event") CreateEventRequestDto request,
-                                         @RequestPart(required = false, value = "image") MultipartFile imageFile
+                                         @RequestPart(required = false, value = "image") MultipartFile imageFile,
+                                         Authentication loggedInUser
     ) {
 
         try {
 
             CreateEventServiceRequest event = eventMapper.toEntity(request);
 
-            Event addEvent = eventService.save(event, imageFile);
+            Event addEvent = eventService.save(event, imageFile ,loggedInUser );
             EventDto eventDto = eventMapper.toDto(addEvent);
 
             if (eventDto == null) {

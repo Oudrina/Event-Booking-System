@@ -1,7 +1,6 @@
 package com.events.eventsbooking.category;
 
 import com.events.eventsbooking.mappers.CategoryMapper;
-import com.events.eventsbooking.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

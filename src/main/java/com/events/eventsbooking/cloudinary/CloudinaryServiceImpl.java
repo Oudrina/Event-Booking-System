@@ -1,8 +1,7 @@
-package com.events.eventsbooking.service.ServiceImpl;
+package com.events.eventsbooking.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.events.eventsbooking.service.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

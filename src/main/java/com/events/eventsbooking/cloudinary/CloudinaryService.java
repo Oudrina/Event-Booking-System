@@ -1,7 +1,5 @@
-package com.events.eventsbooking.service;
+package com.events.eventsbooking.cloudinary;
 
-import com.cloudinary.Cloudinary;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
