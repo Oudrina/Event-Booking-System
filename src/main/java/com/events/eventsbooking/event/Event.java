@@ -44,20 +44,19 @@ public class Event {
     private int availabileCapacity;
 
     @Column(nullable = false)
-    @JsonFormat( shape = JsonFormat.Shape.STRING ,pattern = "HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime startTime;
 
     @Column(nullable = false)
-    @JsonFormat( shape = JsonFormat.Shape.STRING ,pattern = "HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endTime;
 
     @Column(nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    private String  imageUrl;
+    private String imageUrl;
     private String imagePublicId;
-
 
 
     @ManyToOne
@@ -68,7 +67,7 @@ public class Event {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy ="event" ,
+    @OneToMany(mappedBy = "event",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)

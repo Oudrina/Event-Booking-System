@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepo extends JpaRepository<Category,Long> {
+public interface CategoryRepo extends JpaRepository<Category, Long> {
     List<Category> id(Long id);
 
     Category getCategoryById(Long id);

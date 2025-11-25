@@ -11,11 +11,11 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class CloudinaryServiceImpl implements CloudinaryService {
+public class CloudinaryServiceImpl  {
 
     private final Cloudinary cloudinary;
 
-    @Override
+
     public Map<String, String> uploadImage(MultipartFile file) throws IOException {
 
         Map uploadFile = cloudinary
@@ -27,7 +27,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         );
     }
 
-    @Override
+
     public void deleteImage(String publicId) throws IOException {
         cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
     }

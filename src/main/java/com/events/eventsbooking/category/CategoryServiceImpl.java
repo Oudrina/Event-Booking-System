@@ -7,27 +7,26 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl  implements CategoryService {
-    private  final CategoryRepo categoryRepo;
-    @Override
+public class CategoryServiceImpl  {
+    private final CategoryRepo categoryRepo;
+
     public List<Category> getCategories() {
-       return categoryRepo.findAll();
+        return categoryRepo.findAll();
 
     }
 
-    @Override
     public Category getCategoryById(Long id) {
 
-        return  categoryRepo.getCategoryById( id);
+        return categoryRepo.getCategoryById(id);
     }
 
-    @Override
+
     public Category createCategory(Category category) {
-       return categoryRepo.save(category);
+        return categoryRepo.save(category);
 
     }
 
-    @Override
+
     public Category updateCategory(Long id, Category category) {
         Category updatedCategory = categoryRepo.getCategoryById(id);
         updatedCategory.setName(category.getName());
@@ -35,8 +34,7 @@ public class CategoryServiceImpl  implements CategoryService {
 
     }
 
-    @Override
     public void deleteCategory(Long id) {
-   categoryRepo.deleteById(id);
+        categoryRepo.deleteById(id);
     }
 }

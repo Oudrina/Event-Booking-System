@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class CreateEventServiceRequest {
     private String title;
     private String description;
-    private  Long categoryId;
+    private Long categoryId;
     private int capacity;
     private double price;
     private String location;

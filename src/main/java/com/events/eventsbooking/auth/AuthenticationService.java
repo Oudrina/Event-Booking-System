@@ -9,7 +9,6 @@ import com.events.eventsbooking.user.Role;
 import com.events.eventsbooking.user.User;
 import com.events.eventsbooking.user.UserRepo;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,7 +52,7 @@ public class AuthenticationService {
                 .build();
 
         userRepo.save(user);
-//        Email validtaion
+//        Email validation
         sendEmailValidation(user);
 
     }
@@ -63,7 +62,6 @@ public class AuthenticationService {
 
 //      send email
 //        implement email service
-//        todo: activate  route in properties and aslo mail setting
         emailService.sendEmail(
                 user.getEmail(),
                 user.getFullName(),
@@ -91,7 +89,6 @@ public class AuthenticationService {
     }
 
     private String generateActivationCode(int length) {
-//     todo   Building the token from scratch
         String character = "123456789";
 
         StringBuilder codeBuild = new StringBuilder();
@@ -135,7 +132,7 @@ public class AuthenticationService {
             throw new RuntimeException("Code expired , New code has been sent to the same email address");
 
         }
-        User  user = userRepo.findById(savedtoken.getUser().getId())
+        User user = userRepo.findById(savedtoken.getUser().getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         user.setEnabled(true);
 
@@ -144,7 +141,7 @@ public class AuthenticationService {
         tokenRepo.save(savedtoken);
     }
 
-    public  User findUserByUsername(String username) {
-        return  userRepo.findUserByUsername(username);
+    public User findUserByUsername(String username) {
+        return userRepo.findUserByUsername(username);
     }
 }

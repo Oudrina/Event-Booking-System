@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateBookingRequestDto {
-    private  int tickets;
+    private int tickets;
     private Long eventId;
 }

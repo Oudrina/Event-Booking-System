@@ -17,8 +17,8 @@ import java.util.List;
 @Builder
 @Entity
 @EqualsAndHashCode
-public class User implements UserDetails,Principal {
-       @Id
+public class User implements UserDetails, Principal {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String FirstName;
@@ -27,18 +27,19 @@ public class User implements UserDetails,Principal {
     @Column(unique = true)
     private String email;
     private String password;
-    private  boolean enabled;
+    private boolean enabled;
     private boolean accountLocked;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-public String  getFullName(){
-    return FirstName + " " + LastName;
-}
+    public String getFullName() {
+        return FirstName + " " + LastName;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of( new SimpleGrantedAuthority(Role.USER.name()));
+        return List.of(new SimpleGrantedAuthority(Role.USER.name()));
     }
 
     @Override
@@ -48,12 +49,14 @@ public String  getFullName(){
 
     @Override
     public String getUsername() {
-        return  email;
+        return email;
     }
+
     @Override
     public String getName() {
-        return  email;
+        return email;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -73,9 +76,6 @@ public String  getFullName(){
     public boolean isEnabled() {
         return enabled;
     }
-
-
-
 
 
 }

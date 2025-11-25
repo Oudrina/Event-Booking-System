@@ -13,19 +13,21 @@ import java.util.List;
 @RestController
 @RequestMapping("bookings")
 @RequiredArgsConstructor
+
 public class BookingController {
-    private final BookingService bookingService;
-    private  final BookingMapper bookingMapper;
-    private final UserRepo userRepo;
+//    private final BookingService bookingService;
+    private final BookingServiceImpl bookingService;
+    private final BookingMapper bookingMapper;
 
     @GetMapping
-    public  ResponseEntity<List<BookingDto>> getBookings(){
+    public ResponseEntity<List<BookingDto>> getBookings() {
         List<BookingDto> bookings = bookingService.getBookings()
                 .stream()
                 .map(bookingMapper::toBookingDto).toList();
 
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<BookingDto> getBookingByID(@PathVariable Long id) {
 
@@ -36,25 +38,25 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingDto> createBooking(@RequestBody CreateBookingRequestDto request ,
-                                                    Authentication principal){
+    public ResponseEntity<BookingDto> createBooking(@RequestBody CreateBookingRequestDto request,
+                                                    Authentication principal) {
 
 
         CreateBookingServiceRequest booking = bookingMapper.toEntity(request);
-        Booking createdBooking = bookingService.createBooking(booking ,principal);
+        Booking createdBooking = bookingService.createBooking(booking, principal);
         BookingDto bookingDto = bookingMapper.toBookingDto(createdBooking);
 
-        return new ResponseEntity<>(bookingDto,HttpStatus.CREATED);
+        return new ResponseEntity<>(bookingDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         bookingService.deleteBooking(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookingDto> updateBooking(@PathVariable Long id, @RequestBody CreateBookingRequestDto booking){
+    public ResponseEntity<BookingDto> updateBooking(@PathVariable Long id, @RequestBody CreateBookingRequestDto booking) {
         CreateBookingServiceRequest bookingUpdate = bookingMapper.toEntity(booking);
 
         Booking updatedBooking = bookingService.updateBooking(id, bookingUpdate);

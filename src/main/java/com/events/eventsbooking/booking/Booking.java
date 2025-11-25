@@ -23,22 +23,22 @@ public class Booking {
     @Column(nullable = false)
     private int tickets;
     @Column(nullable = false)
-     private double totalPrice;
-    private LocalDateTime  bookingDate;
+    private double totalPrice;
+    private LocalDateTime bookingDate;
 
-     @ManyToOne
-     @JoinColumn(name = "event_id")
-     private Event event;
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 
-     @ManyToOne
-     @JoinColumn( name = "loggedInUser_id")
-     private User user;
+    @ManyToOne
+    @JoinColumn(name = "loggedInUser_id")
+    private User user;
 
-     @PrePersist
-     protected  void createdBookingDate(){
-         LocalDateTime now = LocalDateTime.now();
-         bookingDate = now;
-     }
+    @PrePersist
+    protected void createdBookingDate() {
+        LocalDateTime now = LocalDateTime.now();
+        bookingDate = now;
+    }
 
     @Override
     public boolean equals(Object o) {

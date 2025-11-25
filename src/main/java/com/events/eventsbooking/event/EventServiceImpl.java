@@ -1,13 +1,12 @@
 package com.events.eventsbooking.event;
 
-import com.events.eventsbooking.auth.AuthenticationService;
-import com.events.eventsbooking.cloudinary.CloudinaryServiceImpl;
 import com.events.eventsbooking.category.Category;
-import com.events.eventsbooking.category.CategoryService;
+import com.events.eventsbooking.category.CategoryServiceImpl;
+import com.events.eventsbooking.cloudinary.CloudinaryServiceImpl;
 import com.events.eventsbooking.user.User;
-import com.events.eventsbooking.user.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,36 +17,30 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService {
+public class EventServiceImpl {
     private final EventRepo eventRepo;
-    private final CategoryService categoryService;
+    private final CategoryServiceImpl categoryService;
     private final CloudinaryServiceImpl cloudinaryService;
-    private final UserRepo userRepo;
-    private final AuthenticationService authenticationService;
 
-    @Override
+
     public Event findById(Long id) {
-        Event event = eventRepo.findById(id).
-                orElseThrow();
-        return event;
+        return eventRepo.findById(id).
+                orElseThrow(()-> new UsernameNotFoundException("Username with id"+id+"not found "));
     }
 
-
-    @Override
     public List<Event> findAll() {
         return eventRepo.findAll();
     }
 
-    @Override
+
     @Transactional
-    public Event save(CreateEventServiceRequest event, MultipartFile imageFile , Authentication loggedInUser) throws IOException {
-       User user = (User) loggedInUser.getPrincipal();
+    public Event save(CreateEventServiceRequest event, MultipartFile imageFile, Authentication loggedInUser) throws IOException {
+        User user = (User) loggedInUser.getPrincipal();
 
         Category category = categoryService.getCategoryById(event.getCategoryId());
-//
+
         Map<String, String> imageUrl = cloudinaryService.uploadImage(imageFile);
-
-
+        
         Event createdEvent = Event
                 .builder()
                 .title(event.getTitle())
@@ -66,12 +59,10 @@ public class EventServiceImpl implements EventService {
                 .build();
 
 
-
-
         return eventRepo.save(createdEvent);
     }
 
-    @Override
+
     public void deleteEvent(Long id) {
         Event event = eventRepo.findById(id).orElseThrow();
         if (event.getImagePublicId() != null) {
@@ -86,23 +77,23 @@ public class EventServiceImpl implements EventService {
 
     }
 
-    @Override
+
     public Event updateEvent(Long id, CreateEventServiceRequest event, MultipartFile imageFile) throws IOException {
 
         Event existingEvent = eventRepo.findById(id)
-                .orElseThrow(()-> new RuntimeException("Event not found"));
+                .orElseThrow(() -> new RuntimeException("Event not found"));
 
-            existingEvent.setTitle(event.getTitle());
-            existingEvent.setDescription(event.getDescription());
-            existingEvent.setPrice(event.getPrice());
-            existingEvent.setLocation(event.getLocation());
-            existingEvent.setDate(event.getDate());
-            existingEvent.setEndTime(event.getEndTime());
-            existingEvent.setStartTime(event.getStartTime());
-            existingEvent.setCapacity(event.getCapacity());
-            existingEvent.setAvailabileCapacity(event.getCapacity());
-            Category category = categoryService.getCategoryById(event.getCategoryId());
-            existingEvent.setCategory(category);
+        existingEvent.setTitle(event.getTitle());
+        existingEvent.setDescription(event.getDescription());
+        existingEvent.setPrice(event.getPrice());
+        existingEvent.setLocation(event.getLocation());
+        existingEvent.setDate(event.getDate());
+        existingEvent.setEndTime(event.getEndTime());
+        existingEvent.setStartTime(event.getStartTime());
+        existingEvent.setCapacity(event.getCapacity());
+        existingEvent.setAvailabileCapacity(event.getCapacity());
+        Category category = categoryService.getCategoryById(event.getCategoryId());
+        existingEvent.setCategory(category);
 
         if (imageFile != null && !imageFile.isEmpty()) {
             if (existingEvent.getImagePublicId() != null) {

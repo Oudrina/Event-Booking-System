@@ -13,17 +13,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/events")
-@RequiredArgsConstructor
 public class EventController {
 
-    private final EventService eventService;
+    private final EventServiceImpl eventService;
     private final EventMapper eventMapper;
+
+    public EventController(EventServiceImpl eventService, EventMapper eventMapper) {
+        this.eventService = eventService;
+        this.eventMapper = eventMapper;
+    }
 
 
     @GetMapping
     public ResponseEntity<List<EventDto>> findAll() {
         List<EventDto> eventList = eventService.findAll().stream()
-                .map(event -> eventMapper.toDto(event)).toList();
+                .map(eventMapper::toDto).toList();
 
         return ResponseEntity.ok(eventList);
 
@@ -40,11 +44,11 @@ public class EventController {
 
             CreateEventServiceRequest event = eventMapper.toEntity(request);
 
-            Event addEvent = eventService.save(event, imageFile ,loggedInUser );
+            Event addEvent = eventService.save(event, imageFile, loggedInUser);
             EventDto eventDto = eventMapper.toDto(addEvent);
 
             if (eventDto == null) {
-                new  ResponseEntity<EventDto>(HttpStatus.BAD_REQUEST);
+                new ResponseEntity<EventDto>(HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(eventDto, HttpStatus.CREATED);
 

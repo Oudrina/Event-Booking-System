@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private Long id;
     private String token;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private LocalDateTime validatedAt;
     @ManyToOne
-    @JoinColumn(name = "user_id" ,nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
